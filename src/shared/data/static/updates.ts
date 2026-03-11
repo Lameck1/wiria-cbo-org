@@ -156,4 +156,22 @@ export const staticUpdates: Update[] = [
     publishedAt: '2025-11-28',
     date: '2025-11-28',
   },
+  {
+    id: 'update-10',
+    title: 'Community Awareness & Sensitisation Session in Ndhiwa',
+    excerpt:
+      'Wiria CBO peer monitors led a powerful sensitisation session in Ndhiwa, empowering community members on CLM, HIV prevention, and mental health promotion.',
+    fullContent:
+      'Recently, Wiria CBO conducted a Community Awareness and Sensitisation Session in Ndhiwa, led by our dedicated Peer Monitors. The session focused on Community-Led Monitoring (CLM), HIV prevention, and mental health promotion.\n\nThrough interactive discussions, community members were empowered with knowledge about their right to quality health services and the importance of actively participating in monitoring service delivery. Key topics included regular HIV testing, treatment adherence, stigma reduction, and promoting mental health and psychosocial well-being.\n\nThe engagement encouraged participants to strengthen accountability within the health system and adopt positive health-seeking behaviours. It also underscored the vital role of peer monitors in collecting community feedback to improve service delivery and ensure inclusive, people-centered care.\n\nWiria CBO remains committed to advancing community-led approaches that expand access to comprehensive HIV and mental health services in Ndhiwa and surrounding communities.',
+    category: 'WELLNESS',
+    imageUrl:
+      'https://res.cloudinary.com/dy0nzibcm/image/upload/v1773257467/CLM_three_semvff.jpg',
+    images: [
+      'https://res.cloudinary.com/dy0nzibcm/image/upload/v1773257467/CLM_three_semvff.jpg',
+      'https://res.cloudinary.com/dy0nzibcm/image/upload/v1773257467/CLM_two_sp1vew.jpg',
+      'https://res.cloudinary.com/dy0nzibcm/image/upload/v1773257467/CLM_one_jnwsgc.jpg',
+    ],
+    publishedAt: '2026-03-11',
+    date: '2026-03-11',
+  },
 ];
