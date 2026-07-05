@@ -86,7 +86,7 @@ function ProgramsPage() {
       <Helmet>
         <title>Our Programs - WIRIA CBO</title>
         <meta name="description" content="Discover WIRIA CBO's community programs..." />
-        <link rel="canonical" href="https://wiriacbo.org/programs" />
+        <link rel="canonical" href="https://wiriacbo.or.ke/programs" />
       </Helmet>
       {/* ... */}
     </>
@@ -103,7 +103,7 @@ function ProgramsPage() {
     "@type": "ListItem",
     "position": 1,
     "name": "Home",
-    "item": "https://wiriacbo.org/"
+    "item": "https://wiriacbo.or.ke/"
   }]
 }
 ```

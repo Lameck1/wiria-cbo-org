@@ -44,7 +44,7 @@ Since WIRIA CBO operates in Homa Bay, Local SEO is your easiest win.
 Google views links from other reputable sites as "votes" for your site.
 
 - **Backlinks**:
-  - Partner with other NGOs, Government bodies, or News outlets and ask them to link to `wiriacbo.org`.
+  - Partner with other NGOs, Government bodies, or News outlets and ask them to link to `wiriacbo.or.ke`.
   - Use the "Partners" section to link to them and ask for a reciprocal link.
 - **Social Signals**: Share every new update on Facebook, Twitter, and LinkedIn to drive traffic.
 

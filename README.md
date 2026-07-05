@@ -103,14 +103,14 @@ The application will be available at `http://localhost:5173`.
 
 ## 🚢 Deployment
 
-This application is configured for deployment via **GitHub Pages** on the custom domain **wiriacbo.org**.
+This application is configured for deployment via **GitHub Pages** on `wiriacbo.or.ke`.
 
 1. Set the repository Pages source to the `gh-pages` branch on GitHub.
-2. Point the domain `wiriacbo.org` to GitHub Pages in your DNS records.
+2. Point the domain `wiriacbo.or.ke` to GitHub Pages in your DNS records.
 3. Run `npm run deploy` to build and publish the app.
 4. The build process automatically handles Hashing, Minification, and Tree Shaking.
 
-The site metadata, sitemap, robots file, and `CNAME` file all now point at `https://wiriacbo.org`.
+The site metadata, sitemap, robots file, and `CNAME` file all now point at `https://wiriacbo.or.ke`.
 
 ---
 
