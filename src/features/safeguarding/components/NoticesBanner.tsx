@@ -6,6 +6,8 @@
 
 import { motion } from 'framer-motion';
 
+import { SAFEGUARDING_POLICY_URL } from '../constants';
+
 export function NoticesBanner() {
   return (
     <section className="bg-gray-50 py-8">
@@ -53,7 +55,7 @@ export function NoticesBanner() {
               <h3 className="mb-1 font-bold text-amber-800">Immediate Danger?</h3>
               <p className="text-amber-700">
                 If someone is in immediate danger, please contact local emergency services first
-                (Police: 999/112, or Child Helpline: 116).
+                (Police: 999/112, Child Helpline: 116, or National GBV Hotline: 1195).
               </p>
             </div>
           </div>
@@ -84,8 +86,18 @@ export function NoticesBanner() {
               <h3 className="mb-1 font-bold text-slate-800">Confidentiality Notice</h3>
               <p className="text-slate-600">
                 All reports are treated with the utmost confidentiality. You can choose to report
-                anonymously. Only designated safeguarding officers have access to this information.
+                anonymously. Only the Safeguarding Focal Point and Deputy have access to this
+                information.
+                Records are stored in accordance with Kenya's Data Protection Act, 2019, and
+                retained for a minimum of seven years.
               </p>
+              <a
+                href={SAFEGUARDING_POLICY_URL}
+                download
+                className="mt-3 inline-flex items-center gap-2 rounded-lg bg-slate-800 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-700"
+              >
+                Download Safeguarding Policy
+              </a>
             </div>
           </div>
         </motion.div>

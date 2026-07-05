@@ -6,9 +6,9 @@
 export function WhatHappensNext() {
   const steps = [
     'Your report is received and logged securely',
-    'A safeguarding officer reviews within 24-48 hours',
-    'Investigation is conducted as appropriate',
-    'Action is taken and you may be notified of outcome',
+    'The Safeguarding Focal Point reviews within 24-48 hours',
+    'The Safeguarding Focal Point assesses risk and next steps',
+    'The Safeguarding Focal Point coordinates action and follow-up',
   ];
 
   return (

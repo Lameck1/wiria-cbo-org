@@ -2,13 +2,14 @@ import { useCallback, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import type { z } from 'zod';
 
 import { TIMING } from '@/shared/constants/config';
 
 import { safeguardingSchema } from '../validation';
 import { useSafeguardingReport } from './useSafeguardingReport';
 
-import type { SafeguardingReportSchema } from '../validation';
+type SafeguardingFormValues = z.input<typeof safeguardingSchema>;
 
 export type FormStep = 'reporter' | 'details';
 
@@ -16,11 +17,13 @@ export function useSafeguardingForm() {
   const [currentStep, setCurrentStep] = useState<FormStep>('reporter');
   const [evidenceFile, setEvidenceFile] = useState<File | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [submittedReporterEmail, setSubmittedReporterEmail] = useState<string | null>(null);
+  const [submittedAt, setSubmittedAt] = useState<string | null>(null);
   const [lastSubmitTime, setLastSubmitTime] = useState(0);
 
   const { submitReport, submittedReference, resetSubmission } = useSafeguardingReport();
 
-  const form = useForm<SafeguardingReportSchema>({
+  const form = useForm<SafeguardingFormValues>({
     resolver: zodResolver(safeguardingSchema),
     defaultValues: {
       isAnonymous: false,
@@ -28,10 +31,18 @@ export function useSafeguardingForm() {
       reporterEmail: '',
       reporterPhone: '',
       reporterRelation: '',
+      reporterNature: '',
+      reporterConsent: false,
       category: '',
       incidentDate: '',
       location: '',
-      personsInvolved: '',
+      personAtRiskName: '',
+      personAtRiskAge: '',
+      personAtRiskGender: '',
+      personAtRiskIsParticipant: '',
+      allegedPerpetratorName: '',
+      allegedPerpetratorRole: '',
+      isPersonAtRiskInContact: '',
       description: '',
     },
     mode: 'onTouched',
@@ -48,7 +59,7 @@ export function useSafeguardingForm() {
 
   const isAnonymous = watch('isAnonymous');
 
-  const onSubmit = async (data: SafeguardingReportSchema) => {
+  const onSubmit = async (data: SafeguardingFormValues) => {
     const now = Date.now();
     if (now - lastSubmitTime < TIMING.SUBMIT_COOLDOWN) {
       return;
@@ -57,6 +68,8 @@ export function useSafeguardingForm() {
     setLastSubmitTime(now);
     const success = await submitReport(data, evidenceFile ?? undefined);
     if (success) {
+      setSubmittedReporterEmail(data.reporterEmail?.trim() ?? null);
+      setSubmittedAt(new Date(now).toISOString());
       setShowSuccess(true);
     }
   };
@@ -72,9 +85,9 @@ export function useSafeguardingForm() {
   }, []);
 
   const handleNextStep = async () => {
-    const fieldsToValidate: (keyof SafeguardingReportSchema)[] = isAnonymous
-      ? []
-      : ['reporterName', 'reporterEmail'];
+    const fieldsToValidate: (keyof SafeguardingFormValues)[] = isAnonymous
+      ? ['reporterNature', 'reporterConsent']
+      : ['reporterName', 'reporterEmail', 'reporterNature', 'reporterConsent'];
 
     if (fieldsToValidate.length > 0) {
       const isValid = await trigger(fieldsToValidate);
@@ -91,6 +104,8 @@ export function useSafeguardingForm() {
   const handleNewReport = useCallback(() => {
     resetSubmission();
     setShowSuccess(false);
+    setSubmittedReporterEmail(null);
+    setSubmittedAt(null);
     reset();
     setEvidenceFile(null);
     setCurrentStep('reporter');
@@ -104,6 +119,8 @@ export function useSafeguardingForm() {
     showSuccess,
     isSubmitting,
     submittedReference,
+    submittedReporterEmail,
+    submittedAt,
     handleFileChange,
     clearFile,
     handleNextStep,

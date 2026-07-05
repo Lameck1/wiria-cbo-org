@@ -23,6 +23,8 @@ export function SafeguardingReportForm() {
     showSuccess,
     isSubmitting,
     submittedReference,
+    submittedReporterEmail,
+    submittedAt,
     progressPercentage,
     setIsAnonymous,
     handleFileChange,
@@ -34,7 +36,14 @@ export function SafeguardingReportForm() {
   } = useSafeguardingForm();
 
   if (showSuccess) {
-    return <SuccessView referenceNumber={submittedReference} onReset={handleNewReport} />;
+    return (
+      <SuccessView
+        referenceNumber={submittedReference}
+        submittedReporterEmail={submittedReporterEmail}
+        submittedAt={submittedAt}
+        onReset={handleNewReport}
+      />
+    );
   }
 
   return (

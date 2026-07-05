@@ -67,13 +67,13 @@ export const staticResources: Resource[] = [
   },
   {
     id: 'static-resource-4',
-    title: 'Safeguarding Policy (PSEAH)',
+    title: 'Safeguarding Policy (SEAH)',
     description: 'Our commitment to protecting vulnerable persons from exploitation.',
     category: 'POLICIES',
     fileType: 'PDF',
     fileSize: '1.8 MB',
     downloadUrl: '/documents/safeguarding-policy.pdf',
-    summary: 'Comprehensive policy on Protection from Sexual Exploitation, Abuse, and Harassment.',
+    summary: 'Comprehensive policy on Sexual Exploitation, Abuse, and Harassment.',
     keyPoints: [
       'Zero-tolerance approach',
       'Clear reporting mechanisms',

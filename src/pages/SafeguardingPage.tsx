@@ -19,6 +19,7 @@ import {
   WhatHappensNext,
   DirectContactCard,
 } from '@/features/safeguarding';
+import { hasSafeguardingFocalPointDetails } from '@/features/safeguarding/constants';
 import { SEO } from '@/shared/components/Seo';
 
 // Stagger animation variants
@@ -147,7 +148,8 @@ function HeroSection() {
             transition={{ delay: 0.4 }}
             className="mx-auto max-w-2xl text-lg text-slate-300 md:text-xl"
           >
-            Your safety matters. Report concerns confidentially and we will investigate promptly.
+            Your safety matters. Report SEAH (Sexual Exploitation, Abuse and Harassment) and
+            other safeguarding concerns confidentially.
           </motion.p>
         </motion.div>
       </div>
@@ -184,6 +186,45 @@ function ReportFormCard() {
 }
 
 function SidebarContent() {
+  if (!hasSafeguardingFocalPointDetails) {
+    return (
+      <div className="space-y-4 lg:space-y-6">
+        <CollapsibleSection
+          title="Check Report Status"
+          icon={
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+              />
+            </svg>
+          }
+          defaultOpen={false}
+        >
+          <ReportStatusLookup />
+        </CollapsibleSection>
+        <CollapsibleSection
+          title="What Happens Next?"
+          icon={
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          }
+          defaultOpen={false}
+        >
+          <WhatHappensNext />
+        </CollapsibleSection>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4 lg:space-y-6">
       <CollapsibleSection
@@ -243,7 +284,7 @@ function SafeguardingPage() {
     <main>
       <SEO
         title="Safeguarding & Reporting"
-        description="Confidential reporting of safeguarding concerns. WIRIA CBO is committed to safety and integrity."
+        description="Confidential reporting of safeguarding concerns, including SEAH and child protection. WIRIA CBO is committed to safety and integrity."
         keywords="Safeguarding, Reporting, Integrity, Safety, Confidential, WIRIA"
         breadcrumbs={[
           { name: 'Home', item: '/' },

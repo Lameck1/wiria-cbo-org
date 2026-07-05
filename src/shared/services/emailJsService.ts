@@ -12,6 +12,9 @@ const TEMPLATE_ID = String(import.meta.env['VITE_EMAILJS_TEMPLATE_ID'] ?? '');
 const SAFEGUARDING_TEMPLATE_ID = String(
   import.meta.env['VITE_EMAILJS_SAFEGUARDING_TEMPLATE_ID'] ?? ''
 );
+const SAFEGUARDING_ACK_TEMPLATE_ID = String(
+  import.meta.env['VITE_EMAILJS_SAFEGUARDING_ACK_TEMPLATE_ID'] ?? ''
+);
 const PUBLIC_KEY = String(import.meta.env['VITE_EMAILJS_PUBLIC_KEY'] ?? '');
 
 // Initialize EmailJS
@@ -91,10 +94,17 @@ export const emailJsService = {
     reporterEmail?: string;
     reporterPhone?: string;
     reporterRelation?: string;
+    reporterNature?: string;
     category: string;
     incidentDate?: string;
     location?: string;
-    personsInvolved?: string;
+    personAtRiskName?: string;
+    personAtRiskAge?: string;
+    personAtRiskGender?: string;
+    personAtRiskIsParticipant?: string;
+    allegedPerpetratorName?: string;
+    allegedPerpetratorRole?: string;
+    isPersonAtRiskInContact?: string;
     description: string;
   }): Promise<EmailSendResult> {
     const targetTemplateId = SAFEGUARDING_TEMPLATE_ID ?? TEMPLATE_ID;
@@ -109,10 +119,17 @@ export const emailJsService = {
       email: data.isAnonymous ? 'N/A' : data.reporterEmail,
       phone: data.isAnonymous ? 'N/A' : data.reporterPhone,
       relation: data.reporterRelation ?? 'N/A',
+      reporter_nature: data.reporterNature ?? 'N/A',
       category: data.category,
       incident_date: data.incidentDate ?? 'N/A',
       location: data.location ?? 'N/A',
-      involved: data.personsInvolved ?? 'N/A',
+      person_at_risk_name: data.personAtRiskName ?? 'N/A',
+      person_at_risk_age: data.personAtRiskAge ?? 'N/A',
+      person_at_risk_gender: data.personAtRiskGender ?? 'N/A',
+      person_at_risk_is_participant: data.personAtRiskIsParticipant ?? 'N/A',
+      alleged_perpetrator_name: data.allegedPerpetratorName ?? 'N/A',
+      alleged_perpetrator_role: data.allegedPerpetratorRole ?? 'N/A',
+      person_at_risk_in_contact: data.isPersonAtRiskInContact ?? 'N/A',
       title: `SAFEGUARDING REPORT: ${data.category}`,
       message: data.description,
       form_type: 'SAFEGUARDING_REPORT',
@@ -130,6 +147,44 @@ export const emailJsService = {
       return {
         status: 'PROVIDER_ERROR',
         message: 'Safeguarding report could not be sent',
+      };
+    }
+  },
+
+  async sendSafeguardingAcknowledgement(data: {
+    email: string;
+    referenceNumber: string;
+    receivedAt: string;
+  }): Promise<EmailSendResult> {
+    if (!SERVICE_ID || !SAFEGUARDING_ACK_TEMPLATE_ID || !PUBLIC_KEY) {
+      logger.warn('[EmailJS] Safeguarding acknowledgement configuration missing');
+      return configMissingResult;
+    }
+
+    const templateParams = {
+      email: data.email,
+      to_email: data.email,
+      reference_number: data.referenceNumber,
+      received_at: data.receivedAt,
+      response_commitment: 'We will contact you within 24 hours.',
+      title: 'Safeguarding report acknowledgement',
+      message:
+        'This is an automated acknowledgement that your safeguarding report has been received.',
+      form_type: 'SAFEGUARDING_ACKNOWLEDGEMENT',
+    };
+
+    try {
+      const response = await send(SERVICE_ID, SAFEGUARDING_ACK_TEMPLATE_ID, templateParams);
+      const result = mapResponseToResult(response, 'Safeguarding acknowledgement');
+      if (result.status === 'PROVIDER_ERROR') {
+        logger.error('[EmailJS] Failed to send safeguarding acknowledgement', response);
+      }
+      return result;
+    } catch (error) {
+      logger.error('[EmailJS] Failed to send safeguarding acknowledgement', error);
+      return {
+        status: 'PROVIDER_ERROR',
+        message: 'Safeguarding acknowledgement could not be sent',
       };
     }
   },

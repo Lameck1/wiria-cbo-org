@@ -2,16 +2,44 @@ import { motion } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
 
 import { Button } from '@/shared/components/ui/Button';
-import { FormField, FormTextareaField } from '@/shared/components/ui/form';
+import { FormField, FormSelectField, FormTextareaField } from '@/shared/components/ui/form';
 
-const CONCERN_CATEGORIES = [
-  { value: 'CHILD_PROTECTION', label: 'Child Protection', icon: '🧒' },
-  { value: 'SEXUAL_EXPLOITATION', label: 'Sexual Exploitation', icon: '⚠️' },
-  { value: 'HARASSMENT', label: 'Harassment', icon: '😰' },
-  { value: 'DISCRIMINATION', label: 'Discrimination', icon: '🚫' },
-  { value: 'FRAUD', label: 'Financial Misconduct', icon: '💰' },
-  { value: 'OTHER', label: 'Other Concern', icon: '📋' },
-];
+import {
+  CONTACT_PROXIMITY_OPTIONS,
+  CONCERN_CATEGORY_OPTIONS,
+  PERPETRATOR_ROLE_OPTIONS,
+  PERSON_AT_RISK_AGE_OPTIONS,
+  PERSON_AT_RISK_GENDER_OPTIONS,
+  isChildProtectionConcern,
+  isMinorAgeValue,
+} from '../../constants';
+
+const CONCERN_CATEGORIES = CONCERN_CATEGORY_OPTIONS.map((value) => ({
+  value,
+  label: value,
+  icon:
+    value === 'Child Protection (any concern involving a person under 18)'
+      ? '🧒'
+      : value === 'SEAH - Sexual Exploitation, Abuse or Harassment'
+        ? '⚠️'
+        : value === 'Physical Abuse'
+          ? '✋'
+          : value === 'Gender-Based Violence (GBV) / Domestic Violence'
+            ? '🛡️'
+            : value === 'Emotional or Psychological Abuse'
+              ? '😰'
+              : value === 'Neglect'
+                ? '🕳️'
+                : value ===
+                    'Discrimination (based on HIV status, disability, gender, sexuality, religion, or ethnicity)'
+                  ? '🚫'
+                  : '📋',
+}));
+
+const AGE_OPTIONS = PERSON_AT_RISK_AGE_OPTIONS.map((value) => ({ value, label: value }));
+const GENDER_OPTIONS = PERSON_AT_RISK_GENDER_OPTIONS.map((value) => ({ value, label: value }));
+const ROLE_OPTIONS = PERPETRATOR_ROLE_OPTIONS.map((value) => ({ value, label: value }));
+const CONTACT_OPTIONS = CONTACT_PROXIMITY_OPTIONS.map((value) => ({ value, label: value }));
 
 const staggerItem = {
   hidden: { opacity: 0, y: 20 },
@@ -35,6 +63,8 @@ export function ConcernStep({
 }: ConcernStepProps) {
   const { watch, setValue } = useFormContext();
   const category = watch('category') as string;
+  const age = watch('personAtRiskAge') as string;
+  const riskNoticeVisible = isChildProtectionConcern(category) || isMinorAgeValue(age);
 
   return (
     <div className="space-y-6">
@@ -66,6 +96,17 @@ export function ConcernStep({
         </div>
       </motion.div>
 
+      {riskNoticeVisible && (
+        <motion.div variants={staggerItem} className="rounded-xl border border-amber-300 bg-amber-50 p-4">
+          <p className="font-semibold text-amber-900">Mandatory reporting notice</p>
+          <p className="mt-1 text-sm text-amber-800">
+            Reports involving a person under 18 years of age are subject to mandatory reporting
+            obligations under Kenya's Children Act, 2022. WIRIA is required by law to notify the
+            relevant authorities. Submitting this report authorises WIRIA to do so.
+          </p>
+        </motion.div>
+      )}
+
       <motion.div variants={staggerItem} className="grid gap-4 md:grid-cols-2">
         <FormField
           label="When did this occur?"
@@ -81,13 +122,62 @@ export function ConcernStep({
         />
       </motion.div>
 
+      <motion.div variants={staggerItem} className="space-y-4 rounded-2xl border border-gray-200 p-5">
+        <h3 className="font-semibold text-wiria-blue-dark">Person at Risk</h3>
+        <div className="grid gap-4 md:grid-cols-2">
+          <FormField
+            label="Full name or description"
+            name="personAtRiskName"
+            disabled={isSubmitting}
+            placeholder="Name or description"
+          />
+          <FormSelectField
+            label="Approximate age"
+            name="personAtRiskAge"
+            options={AGE_OPTIONS}
+            disabled={isSubmitting}
+          />
+        </div>
+        <div className="grid gap-4 md:grid-cols-2">
+          <FormSelectField
+            label="Gender"
+            name="personAtRiskGender"
+            options={GENDER_OPTIONS}
+            disabled={isSubmitting}
+          />
+          <FormSelectField
+            label="Is this person a current WIRIA programme participant?"
+            name="personAtRiskIsParticipant"
+            options={CONTACT_OPTIONS.slice(0, 3)}
+            disabled={isSubmitting}
+          />
+        </div>
+      </motion.div>
+
+      <motion.div variants={staggerItem} className="space-y-4 rounded-2xl border border-gray-200 p-5">
+        <h3 className="font-semibold text-wiria-blue-dark">Alleged Perpetrator</h3>
+        <div className="grid gap-4 md:grid-cols-2">
+          <FormField
+            label="Full name or description"
+            name="allegedPerpetratorName"
+            disabled={isSubmitting}
+            placeholder="Name or description"
+          />
+          <FormSelectField
+            label="Role or relationship to WIRIA"
+            name="allegedPerpetratorRole"
+            options={ROLE_OPTIONS}
+            disabled={isSubmitting}
+          />
+        </div>
+      </motion.div>
+
       <motion.div variants={staggerItem}>
-        <FormTextareaField
-          label="Person(s) Involved"
-          name="personsInvolved"
-          rows={2}
+        <FormSelectField
+          label="Is the person at risk currently in contact with the alleged perpetrator?"
+          name="isPersonAtRiskInContact"
+          options={CONTACT_OPTIONS}
           disabled={isSubmitting}
-          placeholder="Names or descriptions of people involved"
         />
       </motion.div>
 

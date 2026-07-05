@@ -15,6 +15,7 @@ export const PRIORITY_COLORS: Record<string, string> = {
 
 export const INCIDENT_TYPES: Record<string, string> = {
   CHILD_PROTECTION: 'Child Protection',
+  SEAH: 'SEAH - Sexual Exploitation, Abuse or Harassment',
   SEXUAL_EXPLOITATION: 'Sexual Exploitation',
   HARASSMENT: 'Harassment',
   DISCRIMINATION: 'Discrimination',

@@ -34,7 +34,7 @@ export function SafeguardingCallout() {
         <div className="flex-1">
           <h4 className="mb-1 text-lg font-bold text-red-800">Need to Report a Concern?</h4>
           <p className="mb-4 text-sm text-red-700/80">
-            If you have a safeguarding concern related to PSEAH or Child Protection, we have a
+            If you have a safeguarding concern related to SEAH or Child Protection, we have a
             dedicated confidential reporting system.
           </p>
           <Link

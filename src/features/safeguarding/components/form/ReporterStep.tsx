@@ -2,17 +2,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
 
 import { Button } from '@/shared/components/ui/Button';
-import { FormField, FormSelectField } from '@/shared/components/ui/form';
+import { FormCheckboxField, FormField, FormSelectField } from '@/shared/components/ui/form';
 
-const REPORTER_RELATIONS = [
-  { value: 'Witness', label: 'Witness' },
-  { value: 'Victim', label: 'Victim/Survivor' },
-  { value: 'Parent/Guardian', label: 'Parent/Guardian' },
-  { value: 'Staff', label: 'Staff Member' },
-  { value: 'Volunteer', label: 'Volunteer' },
-  { value: 'Community Member', label: 'Community Member' },
-  { value: 'Other', label: 'Other' },
-];
+import {
+  REPORTER_RELATION_OPTIONS,
+  REPORT_NATURE_OPTIONS,
+} from '../../constants';
+
+const relationOptions = REPORTER_RELATION_OPTIONS.map((value) => ({ value, label: value }));
+const natureOptions = REPORT_NATURE_OPTIONS.map((value) => ({ value, label: value }));
 
 const staggerItem = {
   hidden: { opacity: 0, y: 20 },
@@ -118,12 +116,28 @@ export function ReporterStep({
             <FormSelectField
               label="Your Relation"
               name="reporterRelation"
-              options={REPORTER_RELATIONS}
+              options={relationOptions}
               disabled={isSubmitting}
             />
           </div>
         </motion.div>
       )}
+
+      <motion.div variants={staggerItem} className="space-y-4 rounded-xl border border-gray-200 p-5">
+        <FormSelectField
+          label="Nature of this report"
+          name="reporterNature"
+          options={natureOptions}
+          disabled={isSubmitting}
+          required
+        />
+        <FormCheckboxField
+          name="reporterConsent"
+          label="I understand that the information I provide will be stored securely by WIRIA and used only for the purpose of investigating this safeguarding concern. I consent to WIRIA sharing this information with relevant authorities where required by law."
+          disabled={isSubmitting}
+          required
+        />
+      </motion.div>
 
       <motion.div variants={staggerItem}>
         <Button

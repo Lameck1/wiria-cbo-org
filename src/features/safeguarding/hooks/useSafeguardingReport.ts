@@ -15,10 +15,18 @@ export interface SafeguardingReportData {
   reporterEmail?: string;
   reporterPhone?: string;
   reporterRelation?: string;
+  reporterNature?: string;
+  reporterConsent?: boolean;
   category: string;
   incidentDate?: string;
   location?: string;
-  personsInvolved?: string;
+  personAtRiskName?: string;
+  personAtRiskAge?: string;
+  personAtRiskGender?: string;
+  personAtRiskIsParticipant?: string;
+  allegedPerpetratorName?: string;
+  allegedPerpetratorRole?: string;
+  isPersonAtRiskInContact?: string;
   description: string;
 }
 
@@ -38,6 +46,26 @@ export function useSafeguardingReport() {
   const [lookupError, setLookupError] = useState<string | null>(null);
   const { isBackendConnected } = useBackendStatus();
 
+  const acknowledgeReporter = async (data: SafeguardingReportData, referenceNumber: string) => {
+    if (!data.reporterEmail || data.isAnonymous) {
+      return;
+    }
+
+    try {
+      const acknowledged = await emailJsService.sendSafeguardingAcknowledgement({
+        email: data.reporterEmail,
+        referenceNumber,
+        receivedAt: new Date().toISOString(),
+      });
+
+      if (!acknowledged || acknowledged.status !== 'SUCCESS') {
+        logger.warn('[useSafeguardingReport] Reporter acknowledgement email could not be sent');
+      }
+    } catch (error) {
+      logger.warn('[useSafeguardingReport] Reporter acknowledgement email could not be sent', error);
+    }
+  };
+
   const submitReport = async (
     data: SafeguardingReportData,
     evidenceFile?: File
@@ -50,6 +78,7 @@ export function useSafeguardingReport() {
         try {
           const result = await safeguardingApi.submit(data, evidenceFile);
           setSubmittedReference(result.data.referenceNumber);
+          void acknowledgeReporter(data, result.data.referenceNumber);
 
           notificationService.success(
             'Report submitted successfully. Please save your reference number.'
