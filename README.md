@@ -103,11 +103,14 @@ The application will be available at `http://localhost:5173`.
 
 ## 🚢 Deployment
 
-This application is configured for deployment via **GitHub Pages** on `wiriacbo.org`.
+This application is configured for deployment via **GitHub Pages** on the custom domain **wiriacbo.org**.
 
-1. Ensure `VITE_API_BASE_URL` is set in your environment for the build.
-2. Run `npm run deploy`.
-3. The build process automatically handles Hashing, Minification, and Tree Shaking.
+1. Set the repository Pages source to the `gh-pages` branch on GitHub.
+2. Point the domain `wiriacbo.org` to GitHub Pages in your DNS records.
+3. Run `npm run deploy` to build and publish the app.
+4. The build process automatically handles Hashing, Minification, and Tree Shaking.
+
+The site metadata, sitemap, robots file, and `CNAME` file all now point at `https://wiriacbo.org`.
 
 ---
 
