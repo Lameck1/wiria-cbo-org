@@ -6,6 +6,7 @@ import type { z } from 'zod';
 
 import { TIMING } from '@/shared/constants/config';
 
+import { REPORT_NATURE_OPTIONS } from '../constants';
 import { safeguardingSchema } from '../validation';
 import { useSafeguardingReport } from './useSafeguardingReport';
 
@@ -31,7 +32,7 @@ export function useSafeguardingForm() {
       reporterEmail: '',
       reporterPhone: '',
       reporterRelation: '',
-      reporterNature: '',
+      reporterNature: REPORT_NATURE_OPTIONS[0],
       reporterConsent: false,
       category: '',
       incidentDate: '',
