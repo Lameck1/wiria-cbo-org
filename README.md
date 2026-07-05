@@ -103,7 +103,7 @@ The application will be available at `http://localhost:5173`.
 
 ## 🚢 Deployment
 
-This application is configured for deployment via **GitHub Pages**.
+This application is configured for deployment via **GitHub Pages** on `wiriacbo.org`.
 
 1. Ensure `VITE_API_BASE_URL` is set in your environment for the build.
 2. Run `npm run deploy`.

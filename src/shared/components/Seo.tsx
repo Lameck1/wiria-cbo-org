@@ -11,7 +11,7 @@ interface SEOProps {
   breadcrumbs?: { name: string; item: string }[];
 }
 
-const DOMAIN = 'https://www.wiriacbo.or.ke';
+const DOMAIN = 'https://wiriacbo.org';
 
 export function SEO({
   title = 'WIRIA CBO - Wellness, Inclusion, Rights, and Impact Advocacy',
